@@ -51,7 +51,7 @@ function App() {
                 return alert("INVALID JSON");
               }
 
-              setForms((prev) => [...prev, JSON.stringify(schema)]);
+              setForms((prev) => [...prev, jsonInput]);
               setJsonInput("");
             }}
           >

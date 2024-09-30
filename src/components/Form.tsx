@@ -66,7 +66,7 @@ const InputSlot = ({
             {label} {required && <span className="text-red-500">*</span>}
           </Label>
 
-          <Select>
+          <Select name={name}>
             <SelectTrigger className="w-full">
               <SelectValue placeholder={name} />
             </SelectTrigger>
@@ -100,10 +100,13 @@ interface SchemaType {
 const Form = ({ schema }: { schema: string }) => {
   const formInputs: SchemaType = JSON.parse(schema);
   const [formData, setFormData] = useState({});
-  const handleChange = (e) => {
+  const handleChange = (
+    e: React.FormEvent<HTMLFormElement | HTMLTextAreaElement>
+  ) => {
+    const { name, value } = e.target;
     setFormData({
       ...formData,
-      [e.target.name]: e.target.value,
+      [name]: value,
     });
   };
 
@@ -126,7 +129,9 @@ const Form = ({ schema }: { schema: string }) => {
         <InputSlot key={field.name} {...field} />
       ))}
       <div className="flex items-center justify-between">
-        <Button className="w-full  mt-4">Submit</Button>
+        <Button type="submit" className="w-full  mt-4">
+          Submit
+        </Button>
       </div>
     </form>
   );
