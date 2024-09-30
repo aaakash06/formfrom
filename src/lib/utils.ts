@@ -13,6 +13,7 @@ export function validJson(input: string) {
 
     return formattedJSON;
   } catch (e) {
+    console.log(e);
     return false;
   }
 }
