@@ -3,6 +3,8 @@ import "./App.css";
 import Form from "./components/Form";
 import { Input } from "./components/ui/input";
 import { Button } from "./components/ui/button";
+import { validJson } from "./lib/utils";
+import { ExampleDialog } from "./components/Modal";
 
 function App() {
   const schema = {
@@ -31,7 +33,7 @@ function App() {
 
   const [jsonInput, setJsonInput] = useState<string>("");
   return (
-    <div className="  my-10">
+    <div className="container mx-auto my-10">
       <section className="flex flex-col gap-10 py-10 flex-1 ">
         <h1> Form Generator</h1>
         <div className="flex gap-6">
@@ -45,12 +47,19 @@ function App() {
           <Button
             onClick={(e) => {
               e.preventDefault();
+              if (!validJson(jsonInput)) {
+                return alert("INVALID JSON");
+              }
+
               setForms((prev) => [...prev, JSON.stringify(schema)]);
               setJsonInput("");
             }}
           >
             Submit
           </Button>
+        </div>
+        <div className="">
+          <ExampleDialog></ExampleDialog>
         </div>
       </section>
 

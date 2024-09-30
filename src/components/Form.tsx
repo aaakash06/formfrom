@@ -8,6 +8,7 @@ import {
 import { Input } from "./ui/input";
 import { Textarea } from "./ui/textarea";
 import { Button } from "./ui/button";
+import { Label } from "./ui/label";
 
 const InputSlot = ({
   type,
@@ -29,12 +30,12 @@ const InputSlot = ({
     case "number":
       return (
         <div className="mb-4">
-          <label
+          <Label
             className="block text-gray-700 text-sm font-bold mb-2"
             htmlFor={name}
           >
             {label} {required && <span className="text-red-500">*</span>}
-          </label>
+          </Label>
           <Input
             id={name}
             name={name}
@@ -46,24 +47,24 @@ const InputSlot = ({
     case "textarea":
       return (
         <div className="mb-4">
-          <label
+          <Label
             className="block text-gray-700 text-sm font-bold mb-2"
             htmlFor={name}
           >
             {label} {required && <span className="text-red-500">*</span>}
-          </label>
+          </Label>
           <Textarea id={name} name={name} required={required || false} />
         </div>
       );
     case "select":
       return (
         <div className="mb-4">
-          <label
+          <Label
             className="block text-gray-700 text-sm font-bold mb-2"
             htmlFor={name}
           >
             {label} {required && <span className="text-red-500">*</span>}
-          </label>
+          </Label>
 
           <Select>
             <SelectTrigger className="w-full">
@@ -115,7 +116,7 @@ const Form = ({ schema }: { schema: string }) => {
     <form
       // onSubmit={handleSubmit}
       // onChange={handleChange}
-      className="w-5xl mx-auto border-2 p-5 my-10 border-blue-300"
+      className="w- mx-auto border-2 p-5 my-10 border-blue-300"
     >
       {formInputs.fields.map((field) => (
         <InputSlot key={field.name} {...field} />
