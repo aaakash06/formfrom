@@ -99,23 +99,27 @@ interface SchemaType {
 
 const Form = ({ schema }: { schema: string }) => {
   const formInputs: SchemaType = JSON.parse(schema);
-  // const [formData, setFormData] = useState({});
-  // const handleChange = (e) => {
-  //   setFormData({
-  //     ...formData,
-  //     [e.target.name]: e.target.value,
-  //   });
-  // };
+  const [formData, setFormData] = useState({});
+  const handleChange = (e) => {
+    setFormData({
+      ...formData,
+      [e.target.name]: e.target.value,
+    });
+  };
 
-  // const handleSubmit = (e) => {
-  //   e.preventDefault();
-  //   onSubmit(formData);
-  // };
+  const handleSubmit = () => {
+    console.log(formData);
+  };
 
   return (
     <form
-      // onSubmit={handleSubmit}
-      // onChange={handleChange}
+      onSubmit={(e) => {
+        e.preventDefault();
+        handleSubmit();
+      }}
+      onChange={(e) => {
+        handleChange(e);
+      }}
       className="w- mx-auto border-2 p-5 my-10 border-blue-300"
     >
       {formInputs.fields.map((field) => (
