@@ -10,7 +10,7 @@ function App() {
   const schema = {
     fields: [
       { type: "text", name: "name", label: "Name" },
-      { type: "email", name: "email", label: "Email", required: true },
+      { type: "email", name: "email", label: "Email" },
       { type: "textarea", name: "message", label: "Message", required: false },
       {
         type: "select",
@@ -28,7 +28,7 @@ function App() {
         name: "terms",
         label: "I agree to the terms and conditions",
       },
-      { type: "file", name: "resume", label: "Resume", required: true },
+      { type: "file", name: "resume", label: "Resume" },
     ],
   };
 
