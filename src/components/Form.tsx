@@ -16,12 +16,20 @@ const InputSlot = ({
   label,
   required,
   options,
+  handleChange,
+  checked,
 }: {
   type: string;
   name: string;
   label: string;
   required?: boolean;
   options?: { label: string; value: string }[];
+  handleChange: (
+    e: React.ChangeEvent<
+      HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement
+    >
+  ) => void;
+  checked: boolean;
 }) => {
   switch (type) {
     case "text":
@@ -38,6 +46,7 @@ const InputSlot = ({
             {label} {required && <span className="text-red-500">*</span>}
           </Label>
           <Input
+            onChange={handleChange}
             id={name}
             name={name}
             type={type}
@@ -45,23 +54,7 @@ const InputSlot = ({
           />
         </div>
       );
-    case "checkbox":
-      return (
-        <div className="mb-4 flex justify-between items-center ">
-          <Label
-            className="block text-gray-700 text-sm font-bold mb-2"
-            htmlFor={name}
-          >
-            {label} {required && <span className="text-red-500">*</span>}
-          </Label>
-          <input
-            title={name}
-            type={"checkbox"}
-            name={name}
-            required={required || false}
-          />
-        </div>
-      );
+
     case "textarea":
       return (
         <div className="mb-4">
@@ -71,33 +64,56 @@ const InputSlot = ({
           >
             {label} {required && <span className="text-red-500">*</span>}
           </Label>
-          <Textarea id={name} name={name} required={required || false} />
+          <Textarea
+            id={name}
+            name={name}
+            onChange={handleChange}
+            required={required || false}
+          />
         </div>
       );
     case "select":
       return (
         <div className="mb-4">
-          <Label
+          <label
             className="block text-gray-700 text-sm font-bold mb-2"
             htmlFor={name}
           >
             {label} {required && <span className="text-red-500">*</span>}
-          </Label>
+          </label>
+          <select
+            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+            id={name}
+            name={name}
+            required={required}
+            onChange={handleChange}
+          >
+            {options?.map((option, index) => (
+              <option key={index} value={option.value}>
+                {option.label}
+              </option>
+            ))}
+          </select>
+        </div>
+      );
 
-          <Select name={name}>
-            <SelectTrigger className="w-full">
-              <SelectValue placeholder={name} />
-            </SelectTrigger>
-
-            <SelectContent defaultValue={options![0].value}>
-              {options?.map((option, index) => (
-                <SelectItem key={index} value={option.value}>
-                  {option.value}
-                </SelectItem>
-              ))}
-              <SelectItem value="apple">Apple</SelectItem>
-            </SelectContent>
-          </Select>
+    case "checkbox":
+      return (
+        <div className="mb-4 flex justify-between items-center ">
+          <label
+            className="block text-gray-700 text-sm font-bold mb-2"
+            htmlFor={name}
+          >
+            {label} {required && <span className="text-red-500">*</span>}
+          </label>
+          <input
+            onChange={handleChange}
+            title={name}
+            type={"checkbox"}
+            name={name}
+            checked={checked}
+            required={required || false}
+          />
         </div>
       );
 
@@ -119,14 +135,30 @@ interface SchemaType {
 const Form = ({ schema }: { schema: string }) => {
   const formInputs: SchemaType = JSON.parse(schema);
   const [formData, setFormData] = useState({});
+
   const handleChange = (
-    e: React.FormEvent<HTMLFormElement | HTMLTextAreaElement>
+    e: React.ChangeEvent<
+      HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement
+    >
   ) => {
-    const { name, value } = e.target;
-    setFormData({
-      ...formData,
-      [name]: value,
-    });
+    const { name, value, type, checked, files } = e.target;
+
+    if (type === "checkbox") {
+      setFormData((prevData) => ({
+        ...prevData,
+        [name]: checked,
+      }));
+    } else if (type === "file") {
+      setFormData((prevData) => ({
+        ...prevData,
+        [name]: files ? files[0] : null,
+      }));
+    } else {
+      setFormData((prevData) => ({
+        ...prevData,
+        [name]: value,
+      }));
+    }
   };
 
   const handleSubmit = () => {
@@ -139,13 +171,15 @@ const Form = ({ schema }: { schema: string }) => {
         e.preventDefault();
         handleSubmit();
       }}
-      onChange={(e) => {
-        handleChange(e);
-      }}
-      className="w- mx-auto border-2 p-5 my-10 border-blue-300"
+      className=" mx-auto border-2 p-5 my-10 border-blue-300"
     >
       {formInputs.fields.map((field) => (
-        <InputSlot key={field.name} {...field} />
+        <InputSlot
+          key={field.name}
+          {...field}
+          handleChange={handleChange}
+          checked={formData[field.name]}
+        />
       ))}
       <div className="flex items-center justify-between">
         <Button type="submit" className="w-full  mt-4">
