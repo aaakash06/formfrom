@@ -23,6 +23,13 @@ function App() {
           { value: "uk", label: "United Kingdom" },
         ],
       },
+      {
+        type: "checkbox",
+        name: "terms",
+        label: "I agree to the terms and conditions",
+        required: true,
+      },
+      { type: "file", name: "resume", label: "Resume", required: true },
     ],
   };
 

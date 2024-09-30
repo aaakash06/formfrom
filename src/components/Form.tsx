@@ -28,6 +28,7 @@ const InputSlot = ({
     case "email":
     case "password":
     case "number":
+    case "file":
       return (
         <div className="mb-4">
           <Label
@@ -40,6 +41,23 @@ const InputSlot = ({
             id={name}
             name={name}
             type={type}
+            required={required || false}
+          />
+        </div>
+      );
+    case "checkbox":
+      return (
+        <div className="mb-4 flex justify-between items-center ">
+          <Label
+            className="block text-gray-700 text-sm font-bold mb-2"
+            htmlFor={name}
+          >
+            {label} {required && <span className="text-red-500">*</span>}
+          </Label>
+          <input
+            title={name}
+            type={"checkbox"}
+            name={name}
             required={required || false}
           />
         </div>
@@ -82,6 +100,7 @@ const InputSlot = ({
           </Select>
         </div>
       );
+
     default:
       return null;
   }
