@@ -31,7 +31,7 @@ function App() {
 
   const [jsonInput, setJsonInput] = useState<string>("");
   return (
-    <div className="flex bg-black/20  container  mx-auto my-10">
+    <div className="  my-10">
       <section className="flex flex-col gap-10 py-10 flex-1 ">
         <h1> Form Generator</h1>
         <div className="flex gap-6">
@@ -55,7 +55,7 @@ function App() {
       </section>
 
       {/* <Form schema={JSON.stringify(schema)} /> */}
-      <section className=" flex-1   overflow-y-scroll h-[calc(100vh-4rem)]">
+      <section className=" flex-1   ">
         <h1> Generated forms</h1>
         <>
           {forms.map((item, index) => (
