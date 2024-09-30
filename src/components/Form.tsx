@@ -131,11 +131,13 @@ const Form = ({ schema }: { schema: string }) => {
     {}
   );
 
-  for (const field of formInputs.fields) {
-    if (field.type == "checkbox") {
-      formData[field.name] = false;
-    }
-  }
+  // useEffect(() => {
+  //   for (const field of formInputs.fields) {
+  //     if (field.type == "checkbox") {
+  //       formData[field.name] = false;
+  //     }
+  //   }
+  // }, []);
 
   const handleChange = (
     e: React.ChangeEvent<
@@ -181,7 +183,7 @@ const Form = ({ schema }: { schema: string }) => {
           key={field.name}
           {...field}
           handleChange={handleChange}
-          checked={(formData[field.name] as boolean) || false}
+          checked={formData[field.name] as boolean}
         />
       ))}
       <div className="flex items-center justify-between">
