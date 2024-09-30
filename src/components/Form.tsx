@@ -142,6 +142,8 @@ const Form = ({ schema }: { schema: string }) => {
       HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement
     >
   ) => {
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    //@ts-ignore
     const { name, value, type, checked, files } = e.target;
 
     if (type === "checkbox") {
@@ -179,7 +181,7 @@ const Form = ({ schema }: { schema: string }) => {
           key={field.name}
           {...field}
           handleChange={handleChange}
-          checked={formData[field.name] || false}
+          checked={(formData[field.name] as boolean) || false}
         />
       ))}
       <div className="flex items-center justify-between">

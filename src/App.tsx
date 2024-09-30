@@ -5,7 +5,6 @@ import { Input } from "./components/ui/input";
 import { Button } from "./components/ui/button";
 import { validJson } from "./lib/utils";
 import { ExampleDialog } from "./components/Modal";
-import Formm from "./components/Formm";
 
 function App() {
   const schema = {
