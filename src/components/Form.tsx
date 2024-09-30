@@ -1,10 +1,3 @@
-import {
-  Select,
-  SelectTrigger,
-  SelectValue,
-  SelectContent,
-  SelectItem,
-} from "./ui/select";
 import { Input } from "./ui/input";
 import { Textarea } from "./ui/textarea";
 import { Button } from "./ui/button";
@@ -82,7 +75,7 @@ const InputSlot = ({
             {label} {required && <span className="text-red-500">*</span>}
           </label>
           <select
-            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+            className="shadow appearance-none border rounded w-full py-2 px-3 bg-white text-black leading-tight focus:outline-none focus:shadow-outline"
             id={name}
             name={name}
             required={required}
@@ -134,7 +127,15 @@ interface SchemaType {
 
 const Form = ({ schema }: { schema: string }) => {
   const formInputs: SchemaType = JSON.parse(schema);
-  const [formData, setFormData] = useState({});
+  const [formData, setFormData] = useState<{ [key: string]: string | boolean }>(
+    {}
+  );
+
+  for (const field of formInputs.fields) {
+    if (field.type == "checkbox") {
+      formData[field.name] = false;
+    }
+  }
 
   const handleChange = (
     e: React.ChangeEvent<
@@ -178,7 +179,7 @@ const Form = ({ schema }: { schema: string }) => {
           key={field.name}
           {...field}
           handleChange={handleChange}
-          checked={formData[field.name]}
+          checked={formData[field.name] || false}
         />
       ))}
       <div className="flex items-center justify-between">
